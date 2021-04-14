@@ -1,29 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import UserItem from './UserItem';
 
-const Users = () => {
-  const data = [
-    {
-      id: "1",
-      login: "Mojombo",
-      avatarUrl: "https://avatars0.githubusercontent.com/u/1?v=4",
-      htmlUrl: "https://github.com/mojombo"
-    },
-    {
-      id: "2",
-      login: "Defunkt",
-      avatarUrl: "https://avatars0.githubusercontent.com/u/2?v=4",
-      htmlUrl: "https://github.com/defunkt"
-    },
-    {
-      id: "3",
-      login: "pjhyett",
-      avatarUrl: "https://avatars0.githubusercontent.com/u/3?v=4",
-      htmlUrl: "https://github.com/pjhyett"
-    },
-  ];
-
-  const [users, setUsers] = useState(data);
+const Users = ({ users, loading }) => {
   return (
     <div style={userStyle}>
       {users.map(user => (
