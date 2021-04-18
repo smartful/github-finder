@@ -1,10 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
+import About from './components/pages/About';
 import './App.css';
-import axios from 'axios';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -43,19 +45,29 @@ function App() {
   };
 
   return (
-    <Fragment>
-      <Navbar />
-      <div className="container">
-        <Alert alertMsg={alertMsg} />
-        <Search
-          searchUsers={searchUsers}
-          clearUsers={clearUsers}
-          showClear={users.length > 0 ? true : false}
-          setAlert={setAlert}
-        />
-        <Users users={users} loading={loading} />
-      </div>
-    </Fragment>
+    <Router>
+      <Fragment>
+        <Navbar />
+        <div className="container">
+          <Alert alertMsg={alertMsg} />
+          <Switch>
+            <Route exact path='/' render={props => (
+                <Fragment>
+                  <Search
+                    searchUsers={searchUsers}
+                    clearUsers={clearUsers}
+                    showClear={users.length > 0 ? true : false}
+                    setAlert={setAlert}
+                  />
+                  <Users users={users} loading={loading} />
+                </Fragment>
+              )}
+            />
+            <Route path='/about' component={About} />
+          </Switch>
+        </div>
+      </Fragment>
+    </Router>
   );
 }
 
