@@ -4,12 +4,14 @@ import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
 import Users from './components/users/Users';
+import User from './components/users/User';
 import Search from './components/users/Search';
 import About from './components/pages/About';
 import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
   
@@ -44,6 +46,15 @@ function App() {
     setTimeout(() => setAlertMsg(null), 5000);
   };
 
+  const getUser = async (username) => {
+    const urlHost = `https://api.github.com/users/`;
+    const url = `${urlHost}${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+    setLoading(true);
+    const res = await axios.get(url);
+    setUser(res.data);
+    setLoading(false);
+  }
+
   return (
     <Router>
       <Fragment>
@@ -64,6 +75,13 @@ function App() {
               )}
             />
             <Route path='/about' component={About} />
+            <Route path='/user/:loginUsr' >
+              <User
+                getUser={getUser}
+                user={user}
+                loading={loading}
+              />
+            </Route>
           </Switch>
         </div>
       </Fragment>
