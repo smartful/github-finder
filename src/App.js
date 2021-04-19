@@ -12,6 +12,7 @@ import './App.css';
 function App() {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
+  const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
   
@@ -55,6 +56,15 @@ function App() {
     setLoading(false);
   }
 
+  const getUserRepos = async (username) => {
+    const urlHost = `https://api.github.com/users/`;
+    const url = `${urlHost}${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`;
+    setLoading(true);
+    const res = await axios.get(url);
+    setRepos(res.data);
+    setLoading(false);
+  }
+
   return (
     <Router>
       <Fragment>
@@ -78,7 +88,9 @@ function App() {
             <Route path='/user/:loginUsr' >
               <User
                 getUser={getUser}
+                getUserRepos={getUserRepos} 
                 user={user}
+                repos={repos}
                 loading={loading}
               />
             </Route>
