@@ -1,18 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import AlertContext from '../../context/alert/AlertContext';
 
-const Alert = ({ alertMsg }) => {
+const Alert = () => {
+  const { alert } = useContext(AlertContext);
+
   return (
-    alertMsg !== null && (
-      <div className={`alert alert-${alertMsg.type}`}>
-        <i className="fas fa-info-circle" /> {alertMsg.message}
+    alert !== null && (
+      <div className={`alert alert-${alert.typeAlert}`}>
+        <i className="fas fa-info-circle" /> {alert.message}
       </div>
     )
   )
-};
-
-Alert.protoTypes = {
-  alertMsg: PropTypes.object,
 };
 
 export default Alert;

@@ -1,15 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
+import GithubContext from '../../context/github/GithubContext';
 
-const User = ({ user, repos, loading, getUser, getUserRepos }) => {
+const User = () => {
   const { loginUsr } = useParams();
+  const { user, repos, loading, getUser, getUserRepos } = useContext(GithubContext);
 
   useEffect(() => {
     getUser(loginUsr);
     getUserRepos(loginUsr);
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -81,14 +83,6 @@ const User = ({ user, repos, loading, getUser, getUserRepos }) => {
       <Repos repos={repos} />
     </Fragment>
   );
-};
-
-User.propTypes = {
-  user: PropTypes.object,
-  repos: PropTypes.array,
-  loading: PropTypes.bool,
-  getUser: PropTypes.func,
-  getUserRepos: PropTypes.func,
 };
 
 export default User;
